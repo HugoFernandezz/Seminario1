@@ -19,15 +19,16 @@ typedef struct {
 typedef struct {
     char clave[20];
     char descripcion[150];
+    int ano;
     int numero_cuadrillas;
-    char cuadrillas[30][MAX_CUADRILLAS_ORDEN];  //Array de strings (almaceno los 'id' de las cuadrillas)
+    char cuadrillas[MAX_CUADRILLAS_ORDEN][50];  //Array de strings (almaceno los 'id' de las cuadrillas)
 } Orden_trabajo;
 
 typedef struct {
     char id[25];   //Formato <Clave>_<Numero>
     char nombre[30];
     int numero_trabajadores;
-    char identificador[30];
+    char identificador[30][20];
 } Cuadrillas;
 
 #endif

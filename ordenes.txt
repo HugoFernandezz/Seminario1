@@ -1,0 +1,66 @@
+BRO_1
+Recogida de brocoli en parcela 102
+2024
+4
+CIRUELO_1
+DURAN_2
+PERICHAN_4
+ALIMER_2
+ZAN_2
+Recogida de zanahoria en parcela 92
+2025
+2
+ZANAHORIA_3
+MANZANAS_8
+LEC_1
+Recogida de lechuga en parcela 55
+2023
+3
+LECHUGA_1
+VERDE_2
+TRIGO_3
+TOM_1
+Recogida de tomates en parcela 120
+2022
+1
+TOMATES_7
+PAP_1
+Recogida de papas en parcela 200
+2021
+2
+PAPAS_9
+CAMPESINA_5
+CEB_1
+Recogida de cebollas en parcela 85
+2024
+3
+CEBOLLA_2
+FRESA_3
+VERDE_4
+ACE_1
+Recogida de acelgas en parcela 77
+2023
+2
+ACELES_1
+RUS_8
+MAN_1
+Recogida de manzanas en parcela 140
+2022
+4
+MANZANA_2
+MANZANA_3
+MANZANA_4
+MANZANA_5
+PER_1
+Recogida de peras en parcela 150
+2021
+3
+PERA_1
+PERA_2
+PERA_3
+SAND_1
+Recogida de sandias en parcela 210
+2025
+2
+SANDIA_1
+SANDIA_2
