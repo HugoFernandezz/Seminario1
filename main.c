@@ -20,45 +20,72 @@ int main()
 
     int index = 0;
 
-    while(index != 12){
+    while(index != 10){
         showMenu();
         scanf("%d", &index);
         fflush(stdin);
         switch(index){
-
         case 1:
             crearTrabajador(trabajadores);
             break;
         case 2:
-            //DarDeBajaTrabajador();
-            break;
-        case 3:
-            mostarTrabajadores(trabajadores);
-            break;
-        case 4:
             leerOrdenesFichero(file, orden_trabajos);
             break;
-        case 5:
-            mostrarOrdenesTrabajo(orden_trabajos);
-            break;
-        case 6:
+        case 3:
             eliminarOrden(orden_trabajos, file);
             break;
-        case 7:
+        case 4:
             leerCuadrilla(file, cuadrillas,trabajadores);
             break;
-        case 8:
-            mostrarCuadrillas(cuadrillas);
-            break;
-        case 9:
+        case 5:
             eliminarCuadrilla(file, cuadrillas);
             break;
-        case 10:
+        case 6:
             guardar(file, cooperativas, trabajadores, orden_trabajos, cuadrillas);
             break;
-        case 11:
+        case 7:
             cargar(file, cooperativas, trabajadores, orden_trabajos, cuadrillas);
             break;
+        case 8:
+            showMenuPrint();
+            int index = 0;
+            scanf("%d", &index);
+            fflush(stdin);
+            //Submenu
+            switch(index){
+
+                case 1:
+                    mostarTrabajadores(trabajadores);
+                    break;
+                case 2:
+                    mostrarOrdenesTrabajo(orden_trabajos, cuadrillas);
+                    break;
+                case 3:
+                    mostrarCuadrillas(cuadrillas,trabajadores);
+                    break;
+                case 4:
+                    mostrarTrabajadoresTXT(trabajadores);
+                    break;
+                case 5:
+                    mostrarOrdenesTrabajoTXT(orden_trabajos,cuadrillas);
+                    break;
+                case 6:
+                    mostrarCuadrillasTXT(cuadrillas, trabajadores);
+                    break;
+                case 7:
+                    break;
+                default:
+                    printError("Entrada no valida");
+                    break;
+                }
+
+            break;
+        case 9:
+            guiaArchivos();
+            break;
+        case 10:
+            printf("Saliendo...");
+            return;
         default:
             printError("[x]Entrada no valida.\n\n");
             break;
@@ -71,49 +98,94 @@ int main()
 }
 
 void showMenu(){
-    printf("Elija la opcion que desea:\n\t[1] Dar de alta un trabajador.\n\t[2] Dar de baja un trabajador.\n\t[3] Mostrar trabajadores.\n\t[4] Leer ordenes de fichero.\n\t[5] Mostrar ordenes\n\t[6] Eliminar orden\n\t[7] Dar de alta cuadrilla\n\t[8] Mostrar cuadrillas\n\t[9] Eliminar cuadrilla\n\t[10] Guardar\n\t[11] Cargar\n");
+    printf("============================================\n");
+    printf("             MENU PRINCIPAL               \n");
+    printf("============================================\n");
+    printf("Elija la opcion que desea:\n");
+    printf("   [1] Dar de alta un trabajador.\n");
+    printf("   [2] Leer ordenes de trabajo (fichero.txt).\n");
+    printf("   [3] Eliminar orden de trabajo (fichero.txt).\n");
+    printf("   [4] Leer cuadrilla (fichero.txt).\n");
+    printf("   [5] Eliminar cuadrilla (fichero.txt).\n");
+    printf("   [6] Guardar informacion del sistema.\n");
+    printf("   [7] Cargar informacion del sistema.\n");
+    printf("   [8] Menu de listados.\n");
+    printf("   [9] Guia de archivos.\n");
+    printf("   [10] Salir.\n");
+    printf("============================================\n");
 }
+
+void showMenuPrint(){
+    printf("============================================\n");
+    printf("           MENU DE LISTADOS               \n");
+    printf("============================================\n");
+    printf("LISTAR EN PANTALLA:\n");
+    printf("   [1] Listar trabajadores.\n");
+    printf("   [2] Listar ordenes de trabajo.\n");
+    printf("   [3] Listar cuadrillas.\n");
+    printf("--------------------------------------------\n");
+    printf("LISTAR EN ARCHIVO DE TEXTO:\n");
+    printf("   [4] Listar trabajadores (.txt).\n");
+    printf("   [5] Listar ordenes de trabajo (.txt).\n");
+    printf("   [6] Listar cuadrillas (.txt).\n");
+    printf("--------------------------------------------\n");
+    printf("   [7] <- Volver.\n");
+    printf("============================================\n");
+}
+
+
+void guiaArchivos(){
+    printf("========================================\n");
+    printf("         GUIA DE ARCHIVOS               \n");
+    printf("========================================\n");
+    printf("[cuadrilla.txt]         --> Dar de alta cuadrillas\n");
+    printf("[ordenes.txt]           --> Dar de alta las ordenes\n");
+    printf("[eliminarCuadrilla.txt] --> Eliminar cuadrilla\n");
+    printf("[eliminarOrden.txt]     --> Eliminar ordenes\n");
+    printf("========================================\n\n");
+}
+
 
 void crearTrabajadores(Trabajador trabajadores[]){
 
 // Le he pedido a la IA que me inicialice 8 trabajadores para aligerar los testeos
     strcpy(trabajadores[0].NNSS, "281234567830");
-    strcpy(trabajadores[0].nombre, "Trabajador 1");
+    strcpy(trabajadores[0].nombre, "Juan Pérez");
     trabajadores[0].ano_nacimiento = 1980;
     trabajadores[0].esta_inicializado = 1;
 
     strcpy(trabajadores[1].NNSS, "361234567860");
-    strcpy(trabajadores[1].nombre, "Trabajador 2");
+    strcpy(trabajadores[1].nombre, "María López");
     trabajadores[1].ano_nacimiento = 1981;
     trabajadores[1].esta_inicializado = 1;
 
     strcpy(trabajadores[2].NNSS, "251234567830");
-    strcpy(trabajadores[2].nombre, "Trabajador 3");
+    strcpy(trabajadores[2].nombre, "Carlos García");
     trabajadores[2].ano_nacimiento = 1982;
     trabajadores[2].esta_inicializado = 1;
 
     strcpy(trabajadores[3].NNSS, "751234567880");
-    strcpy(trabajadores[3].nombre, "Trabajador 4");
+    strcpy(trabajadores[3].nombre, "Ana Martínez");
     trabajadores[3].ano_nacimiento = 1983;
     trabajadores[3].esta_inicializado = 1;
 
     strcpy(trabajadores[4].NNSS, "121234567820");
-    strcpy(trabajadores[4].nombre, "Trabajador 5");
+    strcpy(trabajadores[4].nombre, "Miguel Rodríguez");
     trabajadores[4].ano_nacimiento = 1984;
     trabajadores[4].esta_inicializado = 1;
 
     strcpy(trabajadores[5].NNSS, "361234567810");
-    strcpy(trabajadores[5].nombre, "Trabajador 6");
+    strcpy(trabajadores[5].nombre, "Laura Sánchez");
     trabajadores[5].ano_nacimiento = 1985;
     trabajadores[5].esta_inicializado = 1;
 
     strcpy(trabajadores[6].NNSS, "981234567880");
-    strcpy(trabajadores[6].nombre, "Trabajador 7");
+    strcpy(trabajadores[6].nombre, "José Díaz");
     trabajadores[6].ano_nacimiento = 1986;
     trabajadores[6].esta_inicializado = 1;
 
     strcpy(trabajadores[7].NNSS, "691234567810");
-    strcpy(trabajadores[7].nombre, "Trabajador 8");
+    strcpy(trabajadores[7].nombre, "Sofía Hernández");
     trabajadores[7].ano_nacimiento = 1987;
     trabajadores[7].esta_inicializado = 1;
 

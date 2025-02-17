@@ -7,14 +7,17 @@
 
 void crearTrabajador(Trabajador trabajadores[]);
 void mostarTrabajadores(Trabajador trabajadores[]);
-void mostrarOrdenesTrabajo(Orden_trabajo ordenes[]);
+void mostrarOrdenesTrabajo(Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);
 void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]);
 void eliminarOrden(Orden_trabajo ordenes[], FILE *file);
 void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[]);
-void mostrarCuadrillas(Cuadrillas cuadrillas[]);
+void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[]);
 void eliminarCuadrilla(FILE *file, Cuadrillas cuadrillas[]);
 void guardar(FILE *file, Cooperativa cooperativas[], Trabajador trabajadores[], Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);
 void cargar(FILE *file, Cooperativa cooperativas[], Trabajador trabajadores[], Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);
+void mostrarTrabajadoresTXT(Trabajador trabajadores[]);
+void mostrarOrdenesTrabajoTXT(Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);
+void mostrarCuadrillasTXT(Cuadrillas cuadrillas[], Trabajador trabajadores[]);
 void printError(char text[300]);
 void printSucces(char text[300]);
 

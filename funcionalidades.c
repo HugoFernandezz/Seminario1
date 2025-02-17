@@ -77,7 +77,7 @@ void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]){
     printf("Escriba el nombre del fichero del cual quiere leer las ordenes de trabajo: ");
     gets(nameFile);
 
-    if((file = fopen(nameFile, "rb")) == NULL){
+    if((file = fopen(nameFile, "r")) == NULL){
         printError("\t[x]Hubo un error al abrir el archivo en modo lectura binaria.\n");
         return;
     }
@@ -145,7 +145,7 @@ void guardarOrdenTrabajo(Orden_trabajo orden, Orden_trabajo ordenes[]){
     }
 }
 
-void mostrarOrdenesTrabajo(Orden_trabajo ordenes[]){
+void mostrarOrdenesTrabajo(Orden_trabajo ordenes[], Cuadrillas cuadrillas[]){
 
     int cuadrillaEncontrada = 0;
 
@@ -160,7 +160,14 @@ void mostrarOrdenesTrabajo(Orden_trabajo ordenes[]){
             printf("Ano de creacion: %d\n", ordenes[i].ano);
             printf("Cantidad de cuadrillas: %d\n", ordenes[i].numero_cuadrillas);
             for(int j = 0; j<ordenes[i].numero_cuadrillas; j++){
-                puts(ordenes[i].cuadrillas[j]);
+                int encontrado = 0;
+                for(int k = 0; k<MAX_CUADRILLAS;k++){
+                    if(strcmp(ordenes[i].cuadrillas[j], cuadrillas[k].id)==0){
+                        encontrado = 1;
+                        puts(cuadrillas[k].nombre);
+                    }
+                }
+                if(encontrado == 0) printError("Cuadrilla no registrada en el sistema");
             }
             printf("\n");
         }
@@ -172,6 +179,7 @@ void mostrarOrdenesTrabajo(Orden_trabajo ordenes[]){
 
 }
 
+
 void eliminarOrden(Orden_trabajo ordenes[], FILE *file){
 
     printf("Escriba el nombre del archivo donde esta guardado las ordenes que quiera dar de baja: ");
@@ -180,7 +188,7 @@ void eliminarOrden(Orden_trabajo ordenes[], FILE *file){
     gets(nameFile);
     char buffer[50];
 
-    file = fopen(nameFile, "rb");
+    file = fopen(nameFile, "r");
 
     if(file == NULL){
         printError("Hubo un error al abrir el archivo. Intentelo de nuevo.");
@@ -238,7 +246,7 @@ void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[
     int lineaLeida = 0;
     int indiceTrabajador = 0;
 
-    file = fopen(nameFile, "rb");
+    file = fopen(nameFile, "r");
 
     if(file == NULL){
         printError("Hubo un error al abrir el archivo. Intentelo de nuevo.");
@@ -284,7 +292,7 @@ void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[
     fclose(file);
 }
 
-void mostrarCuadrillas(Cuadrillas cuadrillas[]){
+void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[]){
 
     int cuadrillasEncontradas = 0;
 
@@ -295,8 +303,19 @@ void mostrarCuadrillas(Cuadrillas cuadrillas[]){
             puts(cuadrillas[i].id);
             puts(cuadrillas[i].nombre);
             printf("%d", cuadrillas[i].numero_trabajadores);
+            printf("\n");
             for(int j=0; j<cuadrillas[i].numero_trabajadores;j++){
-                puts(cuadrillas[i].identificador[j]);
+                int encontrado = 0;
+                for(int k = 0; k<MAX_TRABAJADORES;k++){
+                    if(strcmp(cuadrillas[i].identificador[j], trabajadores[k].NNSS) == 0){
+                        encontrado = 1;
+                        puts(trabajadores[k].nombre);
+                    }
+                }
+                //Realmente nunca voy a entrar aqui ya que directamente el sistema no te deja dar de alta cuadrillas si entre ellas hay un trabajador que no esta en el sistema
+                if(encontrado == 0){
+                    printError("Trabajador no dado de alta en el sistema");
+                }
             }
         }
     }
@@ -315,7 +334,7 @@ void eliminarCuadrilla(FILE *file, Cuadrillas cuadrillas[]){
     gets(nameFile);
     char buffer[50];
 
-    file = fopen(nameFile, "rb");
+    file = fopen(nameFile, "r");
 
     if(file == NULL){
         printError("Hubo un error al abrir el archivo. Intentelo de nuevo.");
@@ -385,4 +404,114 @@ void cargar(FILE *file, Cooperativa cooperativas[], Trabajador trabajadores[], O
 
     fclose(file);
 
+}
+
+void mostrarTrabajadoresTXT(Trabajador trabajadores[]){
+
+    FILE *file = fopen("Trabajadores.txt", "w");
+
+    if(file == NULL){
+        printError("Hubo un error al crear el archivo. Intentelo de nuevo.");
+        return;
+    }
+
+    for(int i = 0; i<MAX_TRABAJADORES; i++){
+        if(trabajadores[i].esta_inicializado == 1){
+            fprintf(file, "Nombre: %s\n", trabajadores[i].nombre);
+            fprintf(file, "NNSS: %s\n", trabajadores[i].NNSS);
+            fprintf(file, "Año de nacimiento: %d\n", trabajadores[i].ano_nacimiento);
+            fprintf(file, "\n");
+        }
+    }
+
+    printSucces("Contenido guardado exitosamente en Trabajadores.txt\n");
+
+    fclose(file);
+}
+
+void mostrarOrdenesTrabajoTXT(Orden_trabajo ordenes[], Cuadrillas cuadrillas[]){
+
+    int cuadrillaEncontrada = 0;
+
+    FILE *file = fopen("OrdenesTrabajo.txt", "w");
+
+    if(file == NULL){
+        printError("Hubo un error al crear el archivo ""OrdenesTrabajo.txt""");
+    }
+
+    for(int i = 0; i<MAX_ORDENES;i++){
+        if(ordenes[i].clave[0] != '\0'){
+            cuadrillaEncontrada = 1;
+            fprintf(file, "--------------------------------------------\n");
+            fprintf(file, "Clave: %s\n", ordenes[i].clave);
+            fprintf(file, "Descripcion: %s\n", ordenes[i].descripcion);
+            fprintf(file, "Ano de creacion: %d\n", ordenes[i].ano);
+            fprintf(file, "Cantidad de cuadrillas: %d\n", ordenes[i].numero_cuadrillas);
+            for(int j = 0; j<ordenes[i].numero_cuadrillas; j++){
+                int encontrado = 0;
+                for(int k = 0; k<MAX_CUADRILLAS;k++){
+                    if(strcmp(ordenes[i].cuadrillas[j], cuadrillas[k].id)==0){
+                        encontrado = 1;
+                        fprintf(file, "%s\n", cuadrillas[k].nombre);
+                    }
+                }
+                if(encontrado == 0) fprintf(file, "Cuadrilla no registrada en el sistema\n");
+            }
+            fprintf(file, "\n");
+        }
+    }
+
+    if(cuadrillaEncontrada == 0){
+        printError("[x]Todavia no hay ninguna orden de trabajo inicializada.\n");
+        fprintf(file, "No hay ninguna cuadrilla inicializada.");
+    }
+
+    printSucces("Contenido guardado exitosamente en OrdenesTrabajo.txt\n");
+
+    fclose(file);
+}
+
+void mostrarCuadrillasTXT(Cuadrillas cuadrillas[], Trabajador trabajadores[]){
+
+    int cuadrillaEncontrada = 0;
+
+    FILE *file = fopen("CuadrillasMostradas.txt", "w");
+
+    if(file == NULL){
+        printError("Hubo un error al crear el archivo ""CuadrillasMostradas.txt""");
+    }
+
+    int cuadrillasEncontradas = 0;
+
+    for(int i = 0; i<MAX_CUADRILLAS;i++){
+        if(cuadrillas[i].id[0] != '\0'){
+            fprintf(file, "--------------------------------------------\n");
+            cuadrillasEncontradas++;
+            fprintf(file, "%s\n", cuadrillas[i].id);
+            fprintf(file, "%s\n", cuadrillas[i].nombre);
+            fprintf(file, "%d", cuadrillas[i].numero_trabajadores);
+            fprintf(file, "\n");
+            for(int j=0; j<cuadrillas[i].numero_trabajadores;j++){
+                int encontrado = 0;
+                for(int k = 0; k<MAX_TRABAJADORES;k++){
+                    if(strcmp(cuadrillas[i].identificador[j], trabajadores[k].NNSS) == 0){
+                        encontrado = 1;
+                        fprintf(file, "%s\n", trabajadores[k].nombre);
+                    }
+                }
+                //Realmente nunca voy a entrar aqui ya que directamente el sistema no te deja dar de alta cuadrillas si entre ellas hay un trabajador que no esta en el sistema
+                if(encontrado == 0){
+                    fprintf(file, "Trabajador no dado de alta en el sistema");
+                }
+            }
+        }
+    }
+
+    if(cuadrillasEncontradas == 0){
+        printError("Aun no hay ninguna cuadrilla dada de alta.\n(Cuando vayas a dar de alta una cuadrilla asegurate de que los identificadores estan dados de alta.)");
+        fprintf(file, "Aun no hay ninguna cuadrilla dada de alta.\n(Cuando vayas a dar de alta una cuadrilla asegurate de que los identificadores estan dados de alta.)");
+    }
+
+    fclose(file);
+    printSucces("Contenido guardado exitosamente en CuadrillasMostradas.txt\n");
 }

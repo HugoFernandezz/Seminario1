@@ -46,21 +46,8 @@ RUS_8
 MAN_1
 Recogida de manzanas en parcela 140
 2022
-4
+3
 MANZANA_2
 MANZANA_3
 MANZANA_4
-MANZANA_5
-PER_1
-Recogida de peras en parcela 150
-2021
-3
-PERA_1
-PERA_2
-PERA_3
-SAND_1
-Recogida de sandias en parcela 210
-2025
-2
-SANDIA_1
-SANDIA_2
+

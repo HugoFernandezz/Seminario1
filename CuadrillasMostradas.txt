@@ -1,0 +1,170 @@
+--------------------------------------------
+CIRUELO_1
+CIRUELO
+6
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+Laura Sánchez
+--------------------------------------------
+DURAN_2
+DURAN
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+PERICHAN_4
+PERICHAN
+5
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+--------------------------------------------
+ALIMER_2
+ALIMER
+8
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+Laura Sánchez
+José Díaz
+Sofía Hernández
+--------------------------------------------
+ZANAHORIA_3
+ZANAHORIA
+3
+Juan Pérez
+María López
+Carlos García
+--------------------------------------------
+MANZANAS_8
+MANZANAS
+7
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+Laura Sánchez
+José Díaz
+--------------------------------------------
+LECHUGA_1
+LECHUGA
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+VERDE_2
+VERDE
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+TRIGO_3
+TRIGO
+5
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+--------------------------------------------
+TOMATES_7
+TOMATES
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+PAPAS_9
+PAPAS
+3
+Juan Pérez
+María López
+Carlos García
+--------------------------------------------
+CAMPESINA_5
+CAMPESINA
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+CEBOLLA_2
+CEBOLLA
+5
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+--------------------------------------------
+FRESA_3
+FRESA
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+VERDE_4
+VERDE
+3
+Juan Pérez
+María López
+Carlos García
+--------------------------------------------
+ACELES_1
+ACELES
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+--------------------------------------------
+RUS_8
+RUS
+3
+Juan Pérez
+María López
+Carlos García
+--------------------------------------------
+MANZANA_2
+MANZANA SEGUNDA PARTE
+5
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+--------------------------------------------
+MANZANA_3
+MANZANA TERCERA PARTE
+5
+Juan Pérez
+María López
+Carlos García
+Ana Martínez
+Miguel Rodríguez
+--------------------------------------------
+MANZANA_4
+MANZANA CUARTA PARTE
+4
+Juan Pérez
+María López
+Carlos García
+Ana Martínez

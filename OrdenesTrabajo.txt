@@ -1,0 +1,68 @@
+--------------------------------------------
+Clave: BRO_1
+Descripcion: Recogida de brocoli en parcela 102
+Ano de creacion: 2024
+Cantidad de cuadrillas: 4
+CIRUELO
+DURAN
+PERICHAN
+ALIMER
+
+--------------------------------------------
+Clave: ZAN_2
+Descripcion: Recogida de zanahoria en parcela 92
+Ano de creacion: 2025
+Cantidad de cuadrillas: 2
+ZANAHORIA
+MANZANAS
+
+--------------------------------------------
+Clave: LEC_1
+Descripcion: Recogida de lechuga en parcela 55
+Ano de creacion: 2023
+Cantidad de cuadrillas: 3
+LECHUGA
+VERDE
+TRIGO
+
+--------------------------------------------
+Clave: TOM_1
+Descripcion: Recogida de tomates en parcela 120
+Ano de creacion: 2022
+Cantidad de cuadrillas: 1
+TOMATES
+
+--------------------------------------------
+Clave: PAP_1
+Descripcion: Recogida de papas en parcela 200
+Ano de creacion: 2021
+Cantidad de cuadrillas: 2
+PAPAS
+CAMPESINA
+
+--------------------------------------------
+Clave: CEB_1
+Descripcion: Recogida de cebollas en parcela 85
+Ano de creacion: 2024
+Cantidad de cuadrillas: 3
+CEBOLLA
+FRESA
+VERDE
+
+--------------------------------------------
+Clave: ACE_1
+Descripcion: Recogida de acelgas en parcela 77
+Ano de creacion: 2023
+Cantidad de cuadrillas: 2
+ACELES
+RUS
+
+--------------------------------------------
+Clave: MAN_1
+Descripcion: Recogida de manzanas en parcela 140
+Ano de creacion: 2022
+Cantidad de cuadrillas: 3
+MANZANA SEGUNDA PARTE
+MANZANA TERCERA PARTE
+MANZANA CUARTA PARTE
+

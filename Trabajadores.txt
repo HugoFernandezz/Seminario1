@@ -1,0 +1,32 @@
+Nombre: Juan Pérez
+NNSS: 281234567830
+Año de nacimiento: 1980
+
+Nombre: María López
+NNSS: 361234567860
+Año de nacimiento: 1981
+
+Nombre: Carlos García
+NNSS: 251234567830
+Año de nacimiento: 1982
+
+Nombre: Ana Martínez
+NNSS: 751234567880
+Año de nacimiento: 1983
+
+Nombre: Miguel Rodríguez
+NNSS: 121234567820
+Año de nacimiento: 1984
+
+Nombre: Laura Sánchez
+NNSS: 361234567810
+Año de nacimiento: 1985
+
+Nombre: José Díaz
+NNSS: 981234567880
+Año de nacimiento: 1986
+
+Nombre: Sofía Hernández
+NNSS: 691234567810
+Año de nacimiento: 1987
+
