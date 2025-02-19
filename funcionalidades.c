@@ -2,6 +2,7 @@
 #include "Estructuras.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_ORDENES           50   // Máximo de órdenes de trabajo
 #define MAX_CUADRILLAS        20   // Máximo de cuadrillas en total
@@ -37,28 +38,47 @@ void limpiarSaltoDeLinea(char *str) {
 }
 
 
-void crearTrabajador(Trabajador trabajadores[]){
-    Trabajador trabajador;
-    printf("Introduzca el nombre del trabajador: ");
-    gets(trabajador.nombre);
-    printf("Introduzca el NNSS del trabajador: ");
-    gets(trabajador.NNSS);
-    printf("Introduzca el ano de nacimiento del trabajador: ");
-    scanf("%d", &trabajador.ano_nacimiento);
-    trabajador.esta_inicializado = 1;
+Trabajador *crearTrabajador(Trabajador *trabajadores, int *contador){
 
-    for(int i = 0; i<MAX_TRABAJADORES; i++){
-        if(trabajadores[i].esta_inicializado != 1){
-            trabajadores[i] = trabajador;
-            printSucces("\t[*]Trabajador dado de alta correctamente!\n");
-            break;
-        }
+    if(*contador >= MAX_TRABAJADORES){
+        printError("Has alcanzado el maximo de trabajadores.");
+        return NULL;
     }
+
+    char buffer[255];
+
+    if(*contador == 0){
+        trabajadores = (Trabajador*) malloc(sizeof(Trabajador));
+    }
+    else{
+        trabajadores = (Trabajador*) realloc(trabajadores, sizeof(Trabajador) * (*contador+1));
+    }
+
+    printf("Introduzca el nombre del trabajador: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    limpiarSaltoDeLinea(buffer);
+    trabajadores[*contador].nombre = malloc(strlen(buffer)+1);
+    strcpy(trabajadores[*contador].nombre, buffer);
+
+    printf("Introduzca el NNSS del trabajador: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    limpiarSaltoDeLinea(buffer);
+    trabajadores[*contador].NNSS = malloc(strlen(buffer)+1);
+    strcpy(trabajadores[*contador].NNSS, buffer);
+
+    printf("Introduzca el ano de nacimiento del trabajador: ");
+    scanf("%d", &trabajadores[*contador].ano_nacimiento);
+
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    return trabajadores;
+
 }
 
-void mostarTrabajadores(Trabajador trabajadores[]){
+void mostarTrabajadores(Trabajador trabajadores[], int contador){
 
-    for(int i = 0; i<MAX_TRABAJADORES; i++){
+    for(int i = 0; i<contador; i++){
         if(trabajadores[i].esta_inicializado == 1){
             printf("\tNombre: ");
             puts(trabajadores[i].nombre);
@@ -69,7 +89,7 @@ void mostarTrabajadores(Trabajador trabajadores[]){
     }
 }
 
-void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]){
+Orden_trabajo *leerOrdenesFichero(FILE *file, Orden_trabajo *ordenes, int *contador){
     char nameFile[30];
     char buffer[100];  //Aqui guardo la linea de cada archivo
 
@@ -78,25 +98,32 @@ void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]){
     gets(nameFile);
 
     if((file = fopen(nameFile, "r")) == NULL){
-        printError("\t[x]Hubo un error al abrir el archivo en modo lectura binaria.\n");
-        return;
+        printError("\t[x]Hubo un error al abrir el archivo en modo lectura.\n");
+        return NULL;
     }
 
-    Orden_trabajo orden;
+    if(*contador == 0){
+        ordenes = (Orden_trabajo*)malloc(sizeof(Orden_trabajo));
+    }
 
+
+    Orden_trabajo orden;
     int indiceLinea = 0;
     int indiceCuadrilla = 0;
     //Lee linea a linea
     while(fgets(buffer, sizeof(buffer), file) != NULL){
         limpiarSaltoDeLinea(buffer);
+
         switch(indiceLinea){
 
             //Guardo el ID (primer campo)
             case 0:
+                orden.clave = malloc(strlen(buffer)+1);
                 strcpy(orden.clave, buffer);
                 break;
             //Guardo la descripcion (segundo campo)
             case 1:
+                orden.descripcion = malloc(strlen(buffer)+1);
                 strcpy(orden.descripcion, buffer);
                 break;
             //Guardo el año de creacion (tercer campo)
@@ -110,6 +137,11 @@ void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]){
             default:
                 //Recorro tantos campos como cuadrillas indicadas en el cuarto campo
                 if (indiceLinea >= 4 && indiceCuadrilla < orden.numero_cuadrillas){
+                    orden.cuadrillas[indiceCuadrilla] = malloc(strlen(buffer)+1);
+                    if (!orden.cuadrillas[indiceCuadrilla]) {
+                        fprintf(stderr, "Error al asignar memoria para cuadrilla.\n");
+                        exit(1);
+                    }
                     strcpy(orden.cuadrillas[indiceCuadrilla], buffer);
                     indiceCuadrilla++;
                 }
@@ -120,8 +152,17 @@ void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]){
 
                 */
 
+                //Entra en este if si ha terminado de leer la orden entera
                 if(indiceLinea == (3+orden.numero_cuadrillas)){
-                    guardarOrdenTrabajo(orden, ordenes);
+                    //Guardo la orden reservando el espacio justo para una orden
+                    ordenes = (Orden_trabajo*)realloc(ordenes,sizeof(orden) * (*contador+1));
+                    printSucces("[+]Orden guardada con exito!");
+                    ordenes[*contador] = orden;
+
+                    //Sumo 1 al contador de elementos que tiene el array de ordenes
+                    (*contador)++;
+
+                    //Reinicio contadores
                     indiceLinea = -1;
                     indiceCuadrilla = 0;
                 }
@@ -129,27 +170,17 @@ void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]){
             }
             indiceLinea++;
     }
-
 fclose(file);
+return ordenes;
 
 }
 
-void guardarOrdenTrabajo(Orden_trabajo orden, Orden_trabajo ordenes[]){
-    //Busco el primer hueco libre en el array de ordenes para guardalo ahi
-    for(int i = 0; i<MAX_ORDENES; i++){
-        if(ordenes[i].clave[0] == '\0'){
-            ordenes[i] = orden;
-            printSucces("[+]Orden guardada con exito!");
-            break;
-        }
-    }
-}
 
-void mostrarOrdenesTrabajo(Orden_trabajo ordenes[], Cuadrillas cuadrillas[]){
+void mostrarOrdenesTrabajo(Orden_trabajo ordenes[], Cuadrillas cuadrillas[], int ordenes_contador){
 
     int cuadrillaEncontrada = 0;
 
-    for(int i = 0; i<MAX_ORDENES;i++){
+    for(int i = 0; i<ordenes_contador;i++){
         if(ordenes[i].clave[0] != '\0'){
             cuadrillaEncontrada = 1;
             printf("--------------------------------------------\n");
@@ -236,7 +267,7 @@ void guardarCuadrilla(Cuadrillas cuadrillas[], Cuadrillas cuadrilla){
 }
 
 
-void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[]){
+Cuadrillas *leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[], int *contador){
 
     printf("Escriba el nombre del archivo donde esta guardado las cuadrillas que quiera dar de baja: ");
 
@@ -253,15 +284,21 @@ void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[
         return;
     }
 
+    if(*contador == 0){
+        cuadrillas = (Cuadrillas*) malloc(sizeof(Cuadrillas));
+    }
+
     Cuadrillas cuadrilla;
 
     while(fgets(buffer, sizeof(buffer), file) != NULL){
         limpiarSaltoDeLinea(buffer);
         switch(lineaLeida){
         case 0:
+            cuadrilla.id = malloc(strlen(buffer)+1);
             strcpy(cuadrilla.id, buffer);
             break;
         case 1:
+            cuadrilla.nombre = malloc(strlen(buffer)+1);
             strcpy(cuadrilla.nombre, buffer);
             break;
         case 2:
@@ -270,6 +307,7 @@ void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[
         default:
             if(lineaLeida >= 3 && indiceTrabajador < cuadrilla.numero_trabajadores){
                 if(trabajadorExiste(buffer, trabajadores) == 1){
+                    cuadrilla.identificador[indiceTrabajador] = malloc(strlen(buffer)+1);
                     strcpy(cuadrilla.identificador[indiceTrabajador], buffer);
                     indiceTrabajador++;
                 }
@@ -280,7 +318,12 @@ void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[
             }
 
             if(lineaLeida == (2+cuadrilla.numero_trabajadores)){
-                    guardarCuadrilla(cuadrillas, cuadrilla);
+
+                    cuadrillas = realloc(cuadrillas, sizeof(cuadrilla) * (*contador + 1));
+                    cuadrillas[*contador] = cuadrilla;
+                    printSucces("[+]Cuadrilla guardada con exito!");
+
+                    (*contador)++;
                     lineaLeida = -1;
                     indiceTrabajador = 0;
                 }
@@ -289,24 +332,22 @@ void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[
         lineaLeida++;
     }
 
+    return cuadrillas;
     fclose(file);
 }
 
-void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[]){
+void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[], int contador_cuadrilla, int contador_trabajadores){
 
-    int cuadrillasEncontradas = 0;
 
-    for(int i = 0; i<MAX_CUADRILLAS;i++){
-        if(cuadrillas[i].id[0] != '\0'){
+    for(int i = 0; i<contador_cuadrilla;i++){
             printf("--------------------------------------------\n");
-            cuadrillasEncontradas++;
             puts(cuadrillas[i].id);
             puts(cuadrillas[i].nombre);
             printf("%d", cuadrillas[i].numero_trabajadores);
             printf("\n");
             for(int j=0; j<cuadrillas[i].numero_trabajadores;j++){
                 int encontrado = 0;
-                for(int k = 0; k<MAX_TRABAJADORES;k++){
+                for(int k = 0; k<contador_trabajadores;k++){
                     if(strcmp(cuadrillas[i].identificador[j], trabajadores[k].NNSS) == 0){
                         encontrado = 1;
                         puts(trabajadores[k].nombre);
@@ -317,10 +358,9 @@ void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[]){
                     printError("Trabajador no dado de alta en el sistema");
                 }
             }
-        }
     }
 
-    if(cuadrillasEncontradas == 0){
+    if(contador_cuadrilla == 0){
         printError("Aun no hay ninguna cuadrilla dada de alta.\n(Cuando vayas a dar de alta una cuadrilla asegurate de que los identificadores estan dados de alta.)");
     }
 

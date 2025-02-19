@@ -1,19 +1,20 @@
 # depslib dependency file v1.0
-1739812233 source:c:\users\hugaz\documents\codeblockprojects\seminario1\main.c
+1739991874 source:c:\users\hugaz\documents\codeblockprojects\seminario1\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Estructuras.h"
 	"funcionalidades.h"
 
-1739724194 c:\users\hugaz\documents\codeblockprojects\seminario1\estructuras.h
+1739991699 c:\users\hugaz\documents\codeblockprojects\seminario1\estructuras.h
 
-1739811034 c:\users\hugaz\documents\codeblockprojects\seminario1\funcionalidades.h
+1739989977 c:\users\hugaz\documents\codeblockprojects\seminario1\funcionalidades.h
 	<stdio.h>
 	"Estructuras.h"
 
-1739811362 source:c:\users\hugaz\documents\codeblockprojects\seminario1\funcionalidades.c
+1739991729 source:c:\users\hugaz\documents\codeblockprojects\seminario1\funcionalidades.c
 	"funcionalidades.h"
 	"Estructuras.h"
 	<stdio.h>
 	<string.h>
+	<stdlib.h>
 

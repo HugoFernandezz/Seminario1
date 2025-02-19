@@ -2,33 +2,34 @@
 #define ESTRUCTURAS_H_INCLUDED
 
 #define MAX_CUADRILLAS_ORDEN  10   // Máximo de cuadrillas por orden de trabajo
+#define MAX_TRABAJADORES_CUADRILLA 30// Máximo de trabajadores por cuadrilla
 
 typedef struct {
-    char clave[20];
-    char nombre[30];
+    char *clave;
+    char *nombre;
     int numero_socios;
 } Cooperativa;
 
 typedef struct {
-    char NNSS[20];
-    char nombre[30];
+    char *NNSS;
+    char *nombre;
     int ano_nacimiento;
     int esta_inicializado;
 } Trabajador;
 
 typedef struct {
-    char clave[20];
-    char descripcion[150];
+    char *clave;
+    char *descripcion;
     int ano;
     int numero_cuadrillas;
-    char cuadrillas[MAX_CUADRILLAS_ORDEN][50];  //Array de strings (almaceno los 'id' de las cuadrillas)
+    char *cuadrillas[MAX_CUADRILLAS_ORDEN];  //Array de strings (almaceno los 'id' de las cuadrillas)
 } Orden_trabajo;
 
 typedef struct {
-    char id[25];   //Formato <Clave>_<Numero>
-    char nombre[30];
+    char *id;   //Formato <Clave>_<Numero>
+    char *nombre;
     int numero_trabajadores;
-    char identificador[30][20];
+    char *identificador[MAX_TRABAJADORES_CUADRILLA];
 } Cuadrillas;
 
 #endif

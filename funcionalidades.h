@@ -5,13 +5,14 @@
 
 //Aqui simplemente declaro las funciones, en "funcionalidades.c" las implemento.
 
-void crearTrabajador(Trabajador trabajadores[]);
-void mostarTrabajadores(Trabajador trabajadores[]);
-void mostrarOrdenesTrabajo(Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);
-void leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[]);
+Trabajador *crearTrabajador(Trabajador trabajadores[], int *contador);
+Trabajador *crearTrabajadores(Trabajador trabajadores[], int *contador);
+void mostarTrabajadores(Trabajador trabajadores[], int contador);
+void mostrarOrdenesTrabajo(Orden_trabajo ordenes[], Cuadrillas cuadrillas[], int ordenes_contador);
+Orden_trabajo *leerOrdenesFichero(FILE *file, Orden_trabajo ordenes[], int *contador);
 void eliminarOrden(Orden_trabajo ordenes[], FILE *file);
-void leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[]);
-void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[]);
+Cuadrillas *leerCuadrilla(FILE *file, Cuadrillas cuadrillas[], Trabajador trabajadores[], int *contador);
+void mostrarCuadrillas(Cuadrillas cuadrillas[], Trabajador trabajadores[], int contador_cuadrilla, int contador_trabajadores);
 void eliminarCuadrilla(FILE *file, Cuadrillas cuadrillas[]);
 void guardar(FILE *file, Cooperativa cooperativas[], Trabajador trabajadores[], Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);
 void cargar(FILE *file, Cooperativa cooperativas[], Trabajador trabajadores[], Orden_trabajo ordenes[], Cuadrillas cuadrillas[]);

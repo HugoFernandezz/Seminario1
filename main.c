@@ -9,14 +9,18 @@
 
 int main()
 {
-    Orden_trabajo orden_trabajos[MAX_ORDENES] = {0};
-    Trabajador trabajadores[MAX_TRABAJADORES] = {0};
+    Orden_trabajo *orden_trabajos;
+    Trabajador *trabajadores;
     Cooperativa cooperativas[MAX_COOPERATIVAS] = {0};
-    Cuadrillas cuadrillas[MAX_CUADRILLAS] = {0};
+    Cuadrillas *cuadrillas;
+
+    int orden_trabajos_contador = 0;
+    int trabajadores_contador = 0;
+    int cuadrillas_contador = 0;
 
     FILE *file;
 
-    crearTrabajadores(trabajadores);
+    trabajadores = crearTrabajadores(trabajadores, &trabajadores_contador);
 
     int index = 0;
 
@@ -26,25 +30,25 @@ int main()
         fflush(stdin);
         switch(index){
         case 1:
-            crearTrabajador(trabajadores);
+            trabajadores = crearTrabajador(trabajadores, &trabajadores_contador);
             break;
         case 2:
-            leerOrdenesFichero(file, orden_trabajos);
+            orden_trabajos = leerOrdenesFichero(file, orden_trabajos, &orden_trabajos_contador);
             break;
         case 3:
-            eliminarOrden(orden_trabajos, file);
+            eliminarOrden(orden_trabajos, file);   //TODO
             break;
         case 4:
-            leerCuadrilla(file, cuadrillas,trabajadores);
+            cuadrillas = leerCuadrilla(file, cuadrillas,trabajadores, &cuadrillas_contador);
             break;
         case 5:
-            eliminarCuadrilla(file, cuadrillas);
+            eliminarCuadrilla(file, cuadrillas);    //TODO
             break;
         case 6:
             guardar(file, cooperativas, trabajadores, orden_trabajos, cuadrillas);
             break;
         case 7:
-            cargar(file, cooperativas, trabajadores, orden_trabajos, cuadrillas);
+            cargar(file, cooperativas, trabajadores, orden_trabajos, cuadrillas);   //TODO
             break;
         case 8:
             showMenuPrint();
@@ -55,13 +59,13 @@ int main()
             switch(index){
 
                 case 1:
-                    mostarTrabajadores(trabajadores);
+                    mostarTrabajadores(trabajadores, trabajadores_contador);
                     break;
                 case 2:
-                    mostrarOrdenesTrabajo(orden_trabajos, cuadrillas);
+                    mostrarOrdenesTrabajo(orden_trabajos, cuadrillas, orden_trabajos_contador);
                     break;
                 case 3:
-                    mostrarCuadrillas(cuadrillas,trabajadores);
+                    mostrarCuadrillas(cuadrillas,trabajadores, cuadrillas_contador, trabajadores_contador);
                     break;
                 case 4:
                     mostrarTrabajadoresTXT(trabajadores);
@@ -146,47 +150,115 @@ void guiaArchivos(){
 }
 
 
-void crearTrabajadores(Trabajador trabajadores[]){
+Trabajador *crearTrabajadores(Trabajador *trabajadores, int *contador){
 
-// Le he pedido a la IA que me inicialice 8 trabajadores para aligerar los testeos
-    strcpy(trabajadores[0].NNSS, "281234567830");
-    strcpy(trabajadores[0].nombre, "Juan Pérez");
-    trabajadores[0].ano_nacimiento = 1980;
-    trabajadores[0].esta_inicializado = 1;
+    //Creo directamente el espacio para 8 trabajadores, lo hago para poder testear la aplicacion rapido
 
-    strcpy(trabajadores[1].NNSS, "361234567860");
-    strcpy(trabajadores[1].nombre, "María López");
-    trabajadores[1].ano_nacimiento = 1981;
-    trabajadores[1].esta_inicializado = 1;
+    trabajadores = (Trabajador*) malloc(sizeof(Trabajador)*8);
 
-    strcpy(trabajadores[2].NNSS, "251234567830");
-    strcpy(trabajadores[2].nombre, "Carlos García");
-    trabajadores[2].ano_nacimiento = 1982;
-    trabajadores[2].esta_inicializado = 1;
+    //Todos estos datos son inventados y generados por chatgpt
+    trabajadores[*contador].NNSS = malloc(strlen("281234567830") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 0)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "281234567830");
 
-    strcpy(trabajadores[3].NNSS, "751234567880");
-    strcpy(trabajadores[3].nombre, "Ana Martínez");
-    trabajadores[3].ano_nacimiento = 1983;
-    trabajadores[3].esta_inicializado = 1;
+    trabajadores[*contador].nombre = malloc(strlen("Juan Pérez") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 0)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "Juan Pérez");
 
-    strcpy(trabajadores[4].NNSS, "121234567820");
-    strcpy(trabajadores[4].nombre, "Miguel Rodríguez");
-    trabajadores[4].ano_nacimiento = 1984;
-    trabajadores[4].esta_inicializado = 1;
+    trabajadores[*contador].ano_nacimiento = 1980;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
 
-    strcpy(trabajadores[5].NNSS, "361234567810");
-    strcpy(trabajadores[5].nombre, "Laura Sánchez");
-    trabajadores[5].ano_nacimiento = 1985;
-    trabajadores[5].esta_inicializado = 1;
+    // Trabajador 1
+    trabajadores[*contador].NNSS = malloc(strlen("361234567860") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 1)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "361234567860");
 
-    strcpy(trabajadores[6].NNSS, "981234567880");
-    strcpy(trabajadores[6].nombre, "José Díaz");
-    trabajadores[6].ano_nacimiento = 1986;
-    trabajadores[6].esta_inicializado = 1;
+    trabajadores[*contador].nombre = malloc(strlen("María López") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 1)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "María López");
 
-    strcpy(trabajadores[7].NNSS, "691234567810");
-    strcpy(trabajadores[7].nombre, "Sofía Hernández");
-    trabajadores[7].ano_nacimiento = 1987;
-    trabajadores[7].esta_inicializado = 1;
+    trabajadores[*contador].ano_nacimiento = 1981;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
 
+    // Trabajador 2
+    trabajadores[*contador].NNSS = malloc(strlen("251234567830") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 2)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "251234567830");
+
+    trabajadores[*contador].nombre = malloc(strlen("Carlos García") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 2)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "Carlos García");
+
+    trabajadores[*contador].ano_nacimiento = 1982;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    // Trabajador 3
+    trabajadores[*contador].NNSS = malloc(strlen("751234567880") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 3)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "751234567880");
+
+    trabajadores[*contador].nombre = malloc(strlen("Ana Martínez") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 3)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "Ana Martínez");
+
+    trabajadores[*contador].ano_nacimiento = 1983;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    // Trabajador 4
+    trabajadores[*contador].NNSS = malloc(strlen("121234567820") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 4)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "121234567820");
+
+    trabajadores[*contador].nombre = malloc(strlen("Miguel Rodríguez") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 4)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "Miguel Rodríguez");
+
+    trabajadores[*contador].ano_nacimiento = 1984;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    // Trabajador 5
+    trabajadores[*contador].NNSS = malloc(strlen("361234567810") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 5)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "361234567810");
+
+    trabajadores[*contador].nombre = malloc(strlen("Laura Sánchez") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 5)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "Laura Sánchez");
+
+    trabajadores[*contador].ano_nacimiento = 1985;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    // Trabajador 6
+    trabajadores[*contador].NNSS = malloc(strlen("981234567880") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 6)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "981234567880");
+
+    trabajadores[*contador].nombre = malloc(strlen("José Díaz") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 6)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "José Díaz");
+
+    trabajadores[*contador].ano_nacimiento = 1986;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    // Trabajador 7
+    trabajadores[*contador].NNSS = malloc(strlen("691234567810") + 1);
+    if (!trabajadores[*contador].NNSS) { fprintf(stderr, "Error al asignar memoria para NNSS (trabajador 7)\n"); exit(1); }
+    strcpy(trabajadores[*contador].NNSS, "691234567810");
+
+    trabajadores[*contador].nombre = malloc(strlen("Sofía Hernández") + 1);
+    if (!trabajadores[*contador].nombre) { fprintf(stderr, "Error al asignar memoria para nombre (trabajador 7)\n"); exit(1); }
+    strcpy(trabajadores[*contador].nombre, "Sofía Hernández");
+
+    trabajadores[*contador].ano_nacimiento = 1987;
+    trabajadores[*contador].esta_inicializado = 1;
+    (*contador)++;
+
+    return trabajadores;
 }
